@@ -34,6 +34,13 @@ mongoose.connect(DB_URL, {useNewUrlParser : true, useUnifiedTopology: true,}).th
 // public
 app.use(express.static(path.join(__dirname, 'public')));
 
+// criando o middleware
+app.use((req, res, next) => {
+  console.log("heelo word!!")
+  next(); // Significa passar a requisição
+
+})
+
 // rotas
 app.use('/', admin);
 
