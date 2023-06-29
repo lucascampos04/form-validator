@@ -4,11 +4,28 @@ const bodyParser = require('body-parser');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const flash = require('connect-flash')
 
 const port = 3030;
 const admin = require('./routes/admin');
 
 // Configurações
+// sessão
+app.use(session({
+  secret: "HelloWord",
+  resave: true,
+  saveUninitialized: true
+}))
+app.use(flash())
+
+// mindleware
+app.use((req, res, next)=>{
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  next();
+})
+
 // body-parser 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
