@@ -26,6 +26,24 @@ router.post('/nova', (req, res) => {
         slug: req.body.slug
     }
 
+    var error = []
+
+    if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
+        error.push({text : "Nome invalido"})
+    }
+
+    if(req.body.nome.length < 2){
+        error.push({text : "Nome da categoria muito pequeno. Minimo de 5 caracteres"})
+    }
+
+    if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null){
+        error.push({text : "Texto Slug invalido"})
+    }
+
+    if(error.length > 0){
+        res.render("admin/addcategorias", {error : error})
+    }
+
     new Categoria(novaCategoria).save().then(()=>{
         console.log("Categoria salva com sucesso")
     }).catch((err)=> {
