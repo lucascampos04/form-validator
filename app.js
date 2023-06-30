@@ -13,7 +13,7 @@ const admin = require('./routes/admin');
 // Configurações
 // sessão
 app.use(session({
-  secret: "HelloWord",
+  secret: "Actived sucess",
   resave: true,
   saveUninitialized: true
 }))
@@ -53,7 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // criando o middleware
 app.use((req, res, next) => {
-  console.log("heelo word!!")
+  console.log("helo word!!")
   next(); // Significa passar a requisição
 
 })
