@@ -21,10 +21,7 @@ router.get('/add', (req, res) => {
 });
 
 router.post('/nova', (req, res) => {
-    const novaCategoria = {
-        nome: req.body.nome,
-        slug: req.body.slug
-    }
+    
 
     var error = []
 
@@ -42,13 +39,23 @@ router.post('/nova', (req, res) => {
 
     if(error.length > 0){
         res.render("admin/addcategorias", {error : error})
+    } else{
+        const novaCategoria = {
+            nome: req.body.nome,
+            slug: req.body.slug
+        }
+
+        new Categoria(novaCategoria).save().then(()=>{
+            req.flash('success_msg', 'Categoria salva com sucesso')
+            console.log("Categoria salva")
+            res.redirect('/add')
+        }).catch((err)=> {
+            req.flash('error', 'Erro ao salvar a categoria')
+            console.log(`Erro ao salvar a categoria ${err}`)
+        })
     }
 
-    new Categoria(novaCategoria).save().then(()=>{
-        console.log("Categoria salva com sucesso")
-    }).catch((err)=> {
-        console.log(`Erro ao salvar a categoria ${err}`)
-    })
+
 });
 
 module.exports = router;
